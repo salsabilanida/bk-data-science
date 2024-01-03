@@ -3,17 +3,17 @@ import streamlit as st
 import joblib
 import pandas as pd
 
-model = joblib.load('/content/saved_KNNmodel.sav')
+model = joblib.load('saved_KNNmodel.sav')
 
 def predict(input_features):
 
     prediction = model.predict(input_features)
     return prediction
 
-#judul
+# Judul
 st.title('UCI Heart Disease Prediction')
 
-#data fitur yang perlu di isi
+# Data fitur
 age = st.slider('Age', 0.0, 100.0, 50.0, step = 1.0)
 sex = st.selectbox('Sex', ['Male', 'Female'])
 cp = st.selectbox('Chest Pain Type', ['Typical Angina', 'Atypical Angina','Non-Anginal Pain','Asymptomatic'])
@@ -26,7 +26,7 @@ exang = st.selectbox('Exercise Induced Angina', ['Yes', 'No'])
 oldpeak = st.slider('Maximum Heart Rate Achieved', -3.0, 7.0,0.0, step = 0.1)
 
 if st.button('Predict'):
-    # Konversi input ke dalam format yang dapat digunakan oleh model
+    # Konversi input
     input_features = pd.DataFrame({
         'age': [age],
         'sex': [1.0 if sex == 'Male' else 0.0],  # Misalnya, 1 untuk Male dan 0 untuk Female
@@ -43,10 +43,10 @@ if st.button('Predict'):
     # Lakukan prediksi
     result = predict(input_features)
 
-    # Konversi hasil prediksi ke dalam label yang lebih bermakna
+    # Konversi hasil prediksi ke dalam label
     if result >= 1.0:
         prediction_label = 'Penyakit Jantung Terdeteksi'
     else:
         prediction_label = 'Tidak Terdeteksi Penyakit Jantung'
 
-    st.success(f'The prediction is: {prediction_label}')
+    st.success(f'Hasil Prediksi: {prediction_label}')
